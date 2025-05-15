@@ -279,41 +279,58 @@ body {
         font-style: italic;
         }
 
-        .menu-icon {
-  font-size: 2rem;
-  color: white;
+  .header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #000;
+  color: #fff;
+}
+
+.logo h1 {
+  margin: 0;
+  background: linear-gradient(to right, #ff0066, #ff6600);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.menu-toggle {
   display: none;
+  font-size: 24px;
+  background: none;
+  color: white;
+  border: none;
   cursor: pointer;
 }
 
-.nav-links {
+.buttons {
   display: flex;
   gap: 15px;
 }
 
-@media (max-width: 768px) {
-  .nav-links {
-    display: none;
-    flex-direction: column;
-    background-color: #111;
-    position: absolute;
-    top: 80px;
-    right: 20px;
-    padding: 20px;
-    border-radius: 10px;
-    z-index: 1000;
-    box-shadow: 0 0 10px #000;
-  }
+.btn {
+  color: white;
+  text-decoration: none;
+}
 
-  .nav-links a {
-    margin: 10px 0;
-  }
-
-  .menu-icon {
+@media screen and (max-width: 768px) {
+  .menu-toggle {
     display: block;
   }
 
-  .nav-links.active {
+  .buttons {
+    display: none;
+    flex-direction: column;
+    background-color: #111;
+    padding: 10px;
+    position: absolute;
+    top: 60px;
+    right: 10px;
+    border-radius: 8px;
+  }
+
+  .buttons.active {
     display: flex;
   }
 }
