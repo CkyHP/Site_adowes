@@ -6,6 +6,58 @@
   <meta charset="UTF-8">
   <title>ADOWES - Início</title>
   <link rel="stylesheet" href="{% static 'style.css' %}">
+  <style>
+        body {
+        font-family: Arial, sans-serif;
+        background-color: #f9fafb;
+        margin: 0;
+        padding: 0;
+    }
+
+    .contatos-container {
+        padding: 60px 20px;
+        background-color: #fff;
+        text-align: center;
+    }
+
+    .titulo {
+        font-size: 2em;
+        color: #333;
+        margin-bottom: 40px;
+    }
+
+    .cards-contato {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+
+    .card {
+        background-color: #f1f5f9;
+        border-radius: 12px;
+        padding: 20px 30px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        width: 250px;
+        transition: transform 0.3s ease;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+    }
+
+    .card h3 {
+        color: #2563eb;
+        margin-bottom: 10px;
+        font-size: 1.2em;
+    }
+
+    .card p {
+        color: #111827;
+        font-size: 1em;
+    }
+
+  </style>
 </head>
 <body>
   {% include 'navbar.html' %}
@@ -20,6 +72,20 @@
         <a href="{% url 'cadastro' %}" class="btn-cadastro">Cadastre-se agora</a>][
 
         {% endif %}
+
+            <section class="contatos-container">
+        <h2 class="titulo">Nossos Contatos</h2>
+        <div class="cards-contato">
+            <div class="card">
+                <h3>Email</h3>
+                <p>adowes4@gmail.com</p>
+            </div>
+            <div class="card">
+                <h3>Instagram</h3>
+                <p>@adowesjp1</p>
+            </div>
+        </div>
+    </section>
 
       </section>
   </main>
