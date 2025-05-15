@@ -279,13 +279,14 @@ body {
         font-style: italic;
         }
 
-  .header {
+.header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 10px 20px;
   background-color: #000;
   color: #fff;
+  position: relative;
 }
 
 .logo h1 {
@@ -328,11 +329,10 @@ body {
     top: 60px;
     right: 10px;
     border-radius: 8px;
+    z-index: 999;
   }
 
   .buttons.active {
     display: flex;
   }
 }
-
-  
