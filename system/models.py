@@ -13,7 +13,7 @@ class Usuario(AbstractUser):
         ('roxo', 'Roxo'),
     )
 
-    genero = models.CharField(max_length=1, choices=GENEROS)
+    genero = models.CharField(max_length=10, choices=GENEROS)
     data_nascimento = models.DateField(null=True, blank=True)
     telefone = models.CharField(max_length=15, null=True, blank=True)
     time = models.CharField(max_length=10, choices=TIMES)
