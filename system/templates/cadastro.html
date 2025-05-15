@@ -129,6 +129,36 @@ form select:focus {
   margin-top: 30px;
 }
 
+.input-container {
+  margin-bottom: 15px;
+  position: relative;
+  font-family: Arial, sans-serif;
+}
+
+input[type="text"]:focus {
+  outline: none;
+  border-color: #4a90e2;
+}
+
+.mensagem {
+  margin-top: 6px;
+  font-size: 14px;
+  display: block;
+  transition: all 0.3s;
+}
+
+.mensagem.dica {
+  color: #0077cc;
+}
+
+.mensagem.erro {
+  color: #cc0000;
+}
+
+.mensagem.sucesso {
+  color: #28a745;
+}
+
   </style>
 </head>
 <body>  
@@ -152,50 +182,49 @@ form select:focus {
           </div>
         {% endif %}
 
-      <form method="POST">
+      <form id="formulario" method="POST" action="{% url 'cadastro' %}">
         {% csrf_token %}
-
-        <div>
-          <label for="username">Nome de Usuário:</label>
-          <input type="text" name="username" id="username" required placeholder="Digite um nome criativo">
+        <!-- Nome -->
+        <div class="input-container">
+          <label for="nome">Nome completo:</label>
+          <input type="text" id="nome" name="nome" required placeholder="Digite seu nome completo">
+          <div id="mensagem-nome" class="mensagem"></div>
         </div>
-        <div>
-      <label for="nome">Nome completo:</label>
-      <input type="text" name="nome" id="nome" required placeholder="Digite seu nome completo">
-      </div>
 
-    <div>
-      <label for="email">Telefone:</label>
-      <input type="tel" name="telefone" id="telefone" required placeholder="Digite seu telefone">
-    </div>
+        <!-- Email -->
+        <div class="input-container">
+          <label for="email">Email:</label>
+          <input type="email" id="email" name="email" required placeholder="exemplo@email.com">
+          <div id="mensagem-email" class="mensagem"></div>
+        </div>
 
-    <div>
-      <label for="password">Senha:</label>
-      <input type="password" name="password" id="password" required placeholder="Crie uma senha segura">
-    </div>
+        <!-- Telefone -->
+        <div class="input-container">
+          <label for="telefone">Telefone:</label>
+          <input type="tel" id="telefone" name="telefone" required placeholder="(99) 99999-9999">
+          <div id="mensagem-telefone" class="mensagem"></div>
+        </div>
 
-    <div>
-      <label for="genero">Gênero:</label>
-      <select name="genero" id="genero" required>
-        <option value="">Selecione</option>
-        <option value="M">Masculino</option>
-        <option value="F">Feminino</option>
-      </select>
-    </div>
+        <!-- Data de nascimento -->
+        <div class="input-container">
+          <label for="data_nascimento">Data de Nascimento:</label>
+          <input type="text" name="data_nascimento" id="data_nascimento" placeholder="DD/MM/AAAA" required>
+          <div id="mensagem-data" class="mensagem"></div>
+        </div>
 
-    <div>
-      <label for="data_nascimento">Data de Nascimento:</label>
-      <input type="date" name="data_nascimento" id="data_nascimento" required>
-    </div>
+        <!-- Senha -->
+        <div class="input-container">
+          <label for="senha">Senha:</label>
+          <input type="password" id="senha" name="senha" required placeholder="Crie uma senha">
+          <div id="mensagem-senha" class="mensagem"></div>
+        </div>
 
-    <div>
-      <label for="time">Time:</label>
-      <select name="time" id="time" required>
-        <option value="">Selecione</option>
-        <option value="azul">Azul</option>
-        <option value="roxo">Roxo</option>
-      </select>
-    </div>
+        <!-- Confirmar senha -->
+        <div class="input-container">
+          <label for="confirmar_senha">Confirmar Senha:</label>
+          <input type="password" id="confirmar_senha" name="confirmar_senha" required placeholder="Repita sua senha">
+          <div id="mensagem-confirmar" class="mensagem"></div>
+        </div>
 
 
     <button type="submit" class="btn-cadastro">Cadastrar</button>
@@ -229,7 +258,93 @@ form select:focus {
   }
 
   // Aplica a formatação no campo de telefone do cadastro
-  formatPhoneInput('telefone');
+      formatPhoneInput('telefone');
+
+  document.addEventListener('DOMContentLoaded', function () {
+  // Utilitários
+  const campos = {
+    nome: {
+      input: document.getElementById('nome'),
+      msg: document.getElementById('mensagem-nome'),
+      dica: "Digite seu nome completo.",
+      validar: (v) => v.trim().length >= 3
+    },
+    email: {
+      input: document.getElementById('email'),
+      msg: document.getElementById('mensagem-email'),
+      dica: "Digite um email válido (ex: nome@email.com).",
+      validar: (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)
+    },
+    telefone: {
+      input: document.getElementById('telefone'),
+      msg: document.getElementById('mensagem-telefone'),
+      dica: "Use o formato (99) 99999-9999.",
+      validar: (v) => /^\(\d{2}\)\s?\d{5}-\d{4}$/.test(v)
+    },
+    data_nascimento: {
+      input: document.getElementById('data_nascimento'),
+      msg: document.getElementById('mensagem-data'),
+      dica: "Digite no formato DD/MM/AAAA.",
+      validar: (v) => {
+        const match = v.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+        if (!match) return false;
+        const [_, d, m, a] = match;
+        const data = new Date(`${a}-${m}-${d}`);
+        return !isNaN(data) && data <= new Date();
+      }
+    },
+    senha: {
+      input: document.getElementById('senha'),
+      msg: document.getElementById('mensagem-senha'),
+      dica: "A senha deve ter pelo menos 6 caracteres.",
+      validar: (v) => v.length >= 6
+    },
+    confirmar_senha: {
+      input: document.getElementById('confirmar_senha'),
+      msg: document.getElementById('mensagem-confirmar'),
+      dica: "Repita a senha corretamente.",
+      validar: (v) => v === document.getElementById('senha').value
+    }
+  };
+
+  Object.entries(campos).forEach(([id, campo]) => {
+    campo.input.addEventListener('focus', () => {
+      mostrarMensagem(campo.msg, campo.dica, "dica");
+    });
+
+    campo.input.addEventListener('blur', () => {
+      const valor = campo.input.value.trim();
+      if (!valor) {
+        mostrarMensagem(campo.msg, "Este campo é obrigatório.", "erro");
+        campo.input.style.border = "2px solid #cc0000";
+      } else if (!campo.validar(valor)) {
+        mostrarMensagem(campo.msg, "Valor inválido. " + campo.dica, "erro");
+        campo.input.style.border = "2px solid #cc0000";
+      } else {
+        mostrarMensagem(campo.msg, "Campo válido!", "sucesso");
+        campo.input.style.border = "2px solid #28a745";
+      }
+    });
+  });
+
+  function mostrarMensagem(el, texto, tipo) {
+    el.textContent = texto;
+    el.className = `mensagem ${tipo}`;
+  }
+
+  document.getElementById("formulario").addEventListener("submit", function (e) {
+    let valido = true;
+    Object.values(campos).forEach(campo => {
+      const valor = campo.input.value.trim();
+      if (!valor || !campo.validar(valor)) {
+        mostrarMensagem(campo.msg, "Verifique este campo.", "erro");
+        campo.input.style.border = "2px solid #cc0000";
+        valido = false;
+      }
+    });
+    if (!valido) e.preventDefault();
+  });
+});
 </script>
 
 </body>
