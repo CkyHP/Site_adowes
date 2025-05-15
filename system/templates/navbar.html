@@ -1,46 +1,20 @@
-
-
 <header class="header">
+  <div class="logo" onclick="handleLogoClick()">
+    <h1>ADOWES</h1>
+    <p>Primeira Igreja Metodista Wesleyana em Jardim Primavera</p>
+  </div>
 
+  <nav class="nav-links" id="navLinks">
+    {% if user.is_authenticated %}
+      {% if request.path != "/" %}
+        <a href="/" class="btn">Voltar para Início</a>
+      {% endif %}
+      <a href="/logout" class="btn">Logout</a>
+    {% else %}
+      <a href="/login" class="btn">Login</a>
+      <a href="/cadastro" class="btn">Cadastro</a>
+    {% endif %}
+  </nav>
 
-    <div class="logo">
-
-
-      <h1>ADOWES</h1>
-
-
-      <p>Primeira Igreja Metodista Wesleyana em Jardim Primavera</p>
-
-
-    </div>
-
-
-    <div class="buttons">
-
-
-        {% if user.is_authenticated %}
-
-
-            <a href="/logout" class="btn">Logout</a>
-
-
-        {% else %}
-
-
-            <a href="/login" class="btn">Login</a>
-
-
-            <a href="/cadastro" class="btn">Cadastro</a>
-
-
-        {% endif %}
-
-
-      
-
-
-    </div>
-
-
-  </header>
-
+  <div class="menu-icon" onclick="toggleMenu()">☰</div>
+</header>

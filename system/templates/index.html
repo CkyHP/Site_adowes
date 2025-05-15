@@ -6,57 +6,6 @@
   <meta charset="UTF-8">
   <title>ADOWES - Início</title>
   <link rel="stylesheet" href="{% static 'style.css' %}">
-  <style>
-      .contatos-container {
-        padding: 60px 20px;
-        background-color: #0a0a0a;
-        text-align: center;
-        border-top: 1px solid #222;
-      }
-
-      .contatos-titulo {
-        font-size: 2.3rem;
-        background: linear-gradient(90deg, #ff0057, #ff9900);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        margin-bottom: 40px;
-      }
-
-      .contatos-cards {
-        display: flex;
-        justify-content: center;
-        flex-wrap: wrap;
-        gap: 30px;
-      }
-
-      .contato-card {
-        background-color: #111;
-        padding: 20px 30px;
-        border-radius: 14px;
-        border: 1px solid #222;
-        box-shadow: 0 0 12px rgba(255, 0, 87, 0.1);
-        width: 260px;
-        transition: transform 0.3s ease;
-      }
-
-      .contato-card:hover {
-        transform: translateY(-6px);
-        box-shadow: 0 0 16px rgba(255, 0, 87, 0.2);
-      }
-
-      .contato-card h3 {
-        font-size: 1.2rem;
-        color: #ff9900;
-        margin-bottom: 10px;
-      }
-
-      .contato-card p {
-        font-size: 1rem;
-        color: #ccc;
-      }
-
-
-  </style>
 </head>
 <body>
   {% include 'navbar.html' %}
@@ -68,25 +17,31 @@
 
         <h2>Seja parte do ADOWES!</h2>
         <p>Cadastre-se agora e participe dos eventos semanais da nossa comunidade.</p>
-        <a href="{% url 'cadastro' %}" class="btn-cadastro">Cadastre-se agora</a>
+        <a href="{% url 'cadastro' %}" class="btn-cadastro">Cadastre-se agora</a>][
 
         {% endif %}
 
-            <section class="contatos-container">
-        <h2 class="titulo">Nossos Contatos</h2>
-        <div class="cards-contato">
-            <div class="card">
-                <h3>Email</h3>
-                <p>adowes4@gmail.com</p>
-            </div>
-            <div class="card">
-                <h3>Instagram</h3>
-                <p>@adowesjp1</p>
-            </div>
-        </div>
-    </section>
-
       </section>
   </main>
+
+<script>
+  const isAuthenticated = "{{ user.is_authenticated|yesno:'true,false' }}" === "true";
+  const currentPath = "{{ request.path }}";
+
+  function toggleMenu() {
+    const nav = document.getElementById("navLinks");
+    nav.classList.toggle("active");
+  }
+
+  function handleLogoClick() {
+    if (isAuthenticated && currentPath !== "/") {
+      window.location.href = "/dashboard";
+    } else {
+      window.location.href = "/";
+    }
+  }
+</script>
+
+
 </body>
 </html>

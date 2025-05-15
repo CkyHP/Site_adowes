@@ -279,4 +279,43 @@ body {
         font-style: italic;
         }
 
+        .menu-icon {
+  font-size: 2rem;
+  color: white;
+  display: none;
+  cursor: pointer;
+}
+
+.nav-links {
+  display: flex;
+  gap: 15px;
+}
+
+@media (max-width: 768px) {
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    background-color: #111;
+    position: absolute;
+    top: 80px;
+    right: 20px;
+    padding: 20px;
+    border-radius: 10px;
+    z-index: 1000;
+    box-shadow: 0 0 10px #000;
+  }
+
+  .nav-links a {
+    margin: 10px 0;
+  }
+
+  .menu-icon {
+    display: block;
+  }
+
+  .nav-links.active {
+    display: flex;
+  }
+}
+
   
