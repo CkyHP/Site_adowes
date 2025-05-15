@@ -50,12 +50,13 @@ def cadastro(request):
             return redirect('cadastro')
 
         # Validação da data de nascimento
+       
         try:
-            nascimento = datetime.strptime(data_nascimento, '%Y-%m-%d').date()
+            nascimento = datetime.strptime(data_nascimento, '%d/%m/%Y').date()
             if nascimento >= timezone.now().date():
                 messages.error(request, 'Data de nascimento inválida.')
                 return redirect('cadastro')
-        except ValueError:
+        except (ValueError, TypeError):
             messages.error(request, 'Formato de data inválido.')
             return redirect('cadastro')
 
@@ -76,7 +77,7 @@ def cadastro(request):
             first_name=first_name,
             last_name=last_name,
             genero=genero,
-            data_nascimento=data_nascimento,
+            data_nascimento=nascimento,
             time=time,
             telefone=telefone,
             is_adolescente=True,

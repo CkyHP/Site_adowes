@@ -186,15 +186,15 @@ input[type="text"]:focus {
         {% csrf_token %}
         <!-- Nome -->
         <div class="input-container">
-          <label for="nome">Nome completo:</label>
-          <input type="text" id="nome" name="nome" required placeholder="Digite seu nome completo">
+          <label for="nome">Nome de Usuário:</label>
+          <input type="text" id="username" name="username" required placeholder="Um usuário bem criativo">
           <div id="mensagem-nome" class="mensagem"></div>
         </div>
 
         <!-- Email -->
         <div class="input-container">
-          <label for="email">Email:</label>
-          <input type="email" id="email" name="email" required placeholder="exemplo@email.com">
+          <label for="nome">Nome Completo:</label>
+          <input type="txt" id="nome" name="nome" required placeholder="Seu nome completo">
           <div id="mensagem-email" class="mensagem"></div>
         </div>
 
@@ -204,6 +204,27 @@ input[type="text"]:focus {
           <input type="tel" id="telefone" name="telefone" required placeholder="(99) 99999-9999">
           <div id="mensagem-telefone" class="mensagem"></div>
         </div>
+
+          <div class="campo">
+            <label for="genero">Gênero:</label>
+            <select name="genero" id="genero" required>
+              <option value="">Selecione</option>
+              <option value="Masculino">Masculino</option>
+              <option value="Feminino">Feminino</option>
+            </select>
+            <span id="mensagem-genero" class="mensagem"></span>
+          </div>
+
+          <!-- Campo Time -->
+          <div class="campo">
+            <label for="time">Time:</label>
+            <select name="time" id="time" required>
+              <option value="">Selecione</option>
+              <option value="Azul">Azul</option>
+              <option value="Roxo">Roxo</option>
+            </select>
+            <span id="mensagem-time" class="mensagem"></span>
+          </div>
 
         <!-- Data de nascimento -->
         <div class="input-container">
@@ -215,14 +236,14 @@ input[type="text"]:focus {
         <!-- Senha -->
         <div class="input-container">
           <label for="senha">Senha:</label>
-          <input type="password" id="senha" name="senha" required placeholder="Crie uma senha">
+          <input type="password" id="password" name="password" required placeholder="Crie uma senha">
           <div id="mensagem-senha" class="mensagem"></div>
         </div>
 
         <!-- Confirmar senha -->
         <div class="input-container">
           <label for="confirmar_senha">Confirmar Senha:</label>
-          <input type="password" id="confirmar_senha" name="confirmar_senha" required placeholder="Repita sua senha">
+          <input type="password" id="confirm_password" name="confirm_password" required placeholder="Repita sua senha">
           <div id="mensagem-confirmar" class="mensagem"></div>
         </div>
 
@@ -281,18 +302,48 @@ input[type="text"]:focus {
       dica: "Use o formato (99) 99999-9999.",
       validar: (v) => /^\(\d{2}\)\s?\d{5}-\d{4}$/.test(v)
     },
-    data_nascimento: {
-      input: document.getElementById('data_nascimento'),
-      msg: document.getElementById('mensagem-data'),
-      dica: "Digite no formato DD/MM/AAAA.",
-      validar: (v) => {
-        const match = v.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
-        if (!match) return false;
-        const [_, d, m, a] = match;
-        const data = new Date(`${a}-${m}-${d}`);
-        return !isNaN(data) && data <= new Date();
-      }
+    genero: {
+      input: document.getElementById('genero'),
+      msg: document.getElementById('mensagem-genero'),
+      dica: "Selecione seu gênero.",
+      validar: (v) => v !== ""
     },
+    time: {
+      input: document.getElementById('time'),
+      msg: document.getElementById('mensagem-time'),
+      dica: "Selecione seu time.",
+      validar: (v) => v === "Azul" || v === "Roxo"
+    },
+     data_nascimento: {
+       input: document.getElementById('data_nascimento'),
+       msg: document.getElementById('mensagem-data'),
+       dica: "Digite no formato DD/MM/AAAA.",
+      input: document.getElementById('data_nascimento'),
+       msg: document.getElementById('mensagem-data'),
+       dica: "Digite no formato DD/MM/AAAA.",
+       validar: (v) => {
+         const match = v.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+         if (!match) return false;
+         const [_, dStr, mStr, aStr] = match;
+         const d = parseInt(dStr, 10);
+         const m = parseInt(mStr, 10);
+         const a = parseInt(aStr, 10);
+
+         if (m < 1 || m > 12) return false;
+
+         // Dias máximos por mês (ano bissexto para fevereiro)
+         const diasPorMes = [31, (a % 4 === 0 && (a % 100 !== 0 || a % 400 === 0)) ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+         if (d < 1 || d > diasPorMes[m - 1]) return false;
+
+         const data = new Date(a, m - 1, d);
+         const hoje = new Date();
+         hoje.setHours(0, 0, 0, 0);
+
+         if (data > hoje) return false;
+
+         return true;
+       }
+     },
     senha: {
       input: document.getElementById('senha'),
       msg: document.getElementById('mensagem-senha'),
@@ -345,6 +396,24 @@ input[type="text"]:focus {
     if (!valido) e.preventDefault();
   });
 });
+
+formatDateInput('data_nascimento');
+
+function formatDateInput(id) {
+  const input = document.getElementById(id);
+  input.addEventListener('input', function (e) {
+    let value = input.value.replace(/\D/g, ''); // Remove tudo que não for número
+    if (value.length > 8) value = value.slice(0, 8);
+
+    if (value.length >= 5) {
+      value = `${value.slice(0, 2)}/${value.slice(2, 4)}/${value.slice(4)}`;
+    } else if (value.length >= 3) {
+      value = `${value.slice(0, 2)}/${value.slice(2)}`;
+    }
+
+    input.value = value;
+  });
+}
 </script>
 
 </body>
