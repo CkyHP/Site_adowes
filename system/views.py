@@ -41,6 +41,11 @@ def cadastro(request):
         data_nascimento = request.POST.get('data_nascimento')
         time = request.POST.get('time')
 
+        if genero == 'Masculino':
+            genero = 'M'
+        elif genero == 'F':
+            genero = 'Feminino'
+
         # Validação do username
         if Usuario.objects.filter(username=username).exists():
             messages.error(request, 'Este nome de usuário já está em uso.')
