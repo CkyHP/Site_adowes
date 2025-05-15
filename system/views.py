@@ -6,6 +6,11 @@ from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from datetime import timedelta
 import calendar
+from django.contrib import messages
+from .models import Usuario
+from django.utils import timezone
+from datetime import datetime
+import re
 
 
 
@@ -17,39 +22,79 @@ def index(request):
 # usuarios/views.py
 
 
+def is_senha_forte(senha):
+    return (
+        len(senha) >= 8 and
+        re.search(r'[A-Z]', senha) and
+        re.search(r'[a-z]', senha) and
+        re.search(r'\d', senha) and
+        re.search(r'[@$!%*?&#]', senha)
+    )
+
 def cadastro(request):
     if request.method == 'POST':
+        username = request.POST.get('username')
         nome = request.POST.get('nome')
-        email = request.POST.get('email')
+        telefone = request.POST.get('telefone')
         password = request.POST.get('password')
         genero = request.POST.get('genero')
         data_nascimento = request.POST.get('data_nascimento')
         time = request.POST.get('time')
-        print(email, password, nome, genero, data_nascimento, time)
 
+        # Validação do username
+        if Usuario.objects.filter(username=username).exists():
+            messages.error(request, 'Este nome de usuário já está em uso.')
+            return redirect('cadastro')
+        if not re.match(r'^[a-zA-Z0-9_.-]+$', username):
+            messages.error(request, 'Nome de usuário inválido. Use apenas letras, números e _ . -')
+            return redirect('cadastro')
+
+        # Validação da data de nascimento
+        try:
+            nascimento = datetime.strptime(data_nascimento, '%Y-%m-%d').date()
+            if nascimento >= timezone.now().date():
+                messages.error(request, 'Data de nascimento inválida.')
+                return redirect('cadastro')
+        except ValueError:
+            messages.error(request, 'Formato de data inválido.')
+            return redirect('cadastro')
+
+        # Validação de senha forte
+        if not is_senha_forte(password):
+            messages.error(request, 'A senha deve ter pelo menos 8 caracteres, incluindo maiúsculas, minúsculas, números e símbolos.')
+            return redirect('cadastro')
+
+        # Divisão do nome
+        nome_split = nome.split()
+        first_name = nome_split[0]
+        last_name = ' '.join(nome_split[1:]) if len(nome_split) > 1 else ''
+
+        # Criação do usuário
         Usuario.objects.create_user(
-            username=email,
-            email=email,
+            username=username,
             password=password,
-            first_name=nome.split()[0],
-            last_name=nome.split()[1] if len(nome.split()) > 1 else '',
+            first_name=first_name,
+            last_name=last_name,
             genero=genero,
             data_nascimento=data_nascimento,
             time=time,
+            telefone=telefone,
             is_adolescente=True,
             is_lider=False
         )
+
+        messages.success(request, 'Cadastro realizado com sucesso. Faça o login!')
         return redirect('login')
-    
+
     return render(request, 'cadastro.html')
 
 def login_view(request):
     if request.method == 'POST':
-        email = request.POST.get('email')
+        username = request.POST.get('username')
         password = request.POST.get('password')
 
         try:
-            user = Usuario.objects.get(email=email)
+            user = Usuario.objects.get(username=username)
             user = authenticate(request, username=user.username, password=password)
 
             if user is not None:
@@ -222,3 +267,5 @@ def excluir_evento(request, id):
     evento = get_object_or_404(Evento, id=id)
     evento.delete()
     return redirect('dashboard')
+
+

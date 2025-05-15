@@ -15,6 +15,7 @@ class Usuario(AbstractUser):
 
     genero = models.CharField(max_length=1, choices=GENEROS)
     data_nascimento = models.DateField(null=True, blank=True)
+    telefone = models.CharField(max_length=15, null=True, blank=True)
     time = models.CharField(max_length=10, choices=TIMES)
     is_lider = models.BooleanField(default=False)
     is_adolescente = models.BooleanField(default=False)
@@ -34,6 +35,7 @@ class Evento(models.Model):
     ]
 
     nome = models.CharField(max_length=100)
+
     data = models.DateField(null=True, blank=True)
     dia_semana = models.CharField(max_length=10, choices=DIAS_SEMANA, null=True, blank=True)
     horario = models.TimeField()
