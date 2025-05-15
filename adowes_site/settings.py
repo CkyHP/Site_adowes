@@ -32,6 +32,10 @@ DEBUG = os.getenv('DJANGO_DEBUG')
 
 ALLOWED_HOSTS = str(os.environ.get('DJANGO_ALLOWED_HOSTS', default='localhost')).split(',')
 
+CSRF_TRUSTED_ORIGINS = [
+    "https://siteadowes-production.up.railway.app",
+]
+
 
 # Application definition
 
