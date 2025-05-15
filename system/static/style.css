@@ -279,12 +279,12 @@ body {
         font-style: italic;
         }
 
-.header {
+        .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  background: #000;
   padding: 10px 20px;
-  background-color: #000;
   color: #fff;
   position: relative;
 }
@@ -296,43 +296,60 @@ body {
   -webkit-text-fill-color: transparent;
 }
 
-.menu-toggle {
-  display: none;
-  font-size: 24px;
-  background: none;
-  color: white;
-  border: none;
-  cursor: pointer;
-}
-
-.buttons {
+.nav-links {
   display: flex;
   gap: 15px;
 }
 
-.btn {
+.nav-links a {
   color: white;
   text-decoration: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
 }
 
-@media screen and (max-width: 768px) {
-  .menu-toggle {
+.nav-links a:hover {
+  background-color: #ff6600;
+}
+
+.menu-toggle {
+  display: none;
+}
+
+.menu-icon {
+  display: none;
+  font-size: 28px;
+  cursor: pointer;
+  user-select: none;
+  color: white;
+}
+
+/* RESPONSIVO */
+@media (max-width: 768px) {
+  .menu-icon {
     display: block;
   }
 
-  .buttons {
-    display: none;
-    flex-direction: column;
-    background-color: #111;
-    padding: 10px;
+  .nav-links {
     position: absolute;
     top: 60px;
-    right: 10px;
+    right: 20px;
+    background-color: #111;
+    flex-direction: column;
+    width: 150px;
     border-radius: 8px;
-    z-index: 999;
+    padding: 10px 0;
+    display: none;
   }
 
-  .buttons.active {
+  .nav-links a {
+    padding: 10px 20px;
+    border-radius: 0;
+  }
+
+  /* Quando o checkbox está marcado, mostra o menu */
+  #menu-toggle:checked + .menu-icon + .nav-links {
     display: flex;
   }
 }

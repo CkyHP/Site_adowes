@@ -4,9 +4,10 @@
     <p>Primeira Igreja Metodista Wesleyana em Jardim Primavera</p>
   </div>
 
-  <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+  <input type="checkbox" id="menu-toggle" class="menu-toggle" />
+  <label for="menu-toggle" class="menu-icon">&#9776;</label>
 
-  <nav class="buttons" id="navLinks">
+  <nav class="nav-links">
     {% if user.is_authenticated %}
       {% if request.path != "/" %}
         <a href="/" class="btn">Voltar para Início</a>
@@ -14,7 +15,7 @@
       <a href="/logout" class="btn">Logout</a>
     {% else %}
       <a href="/login" class="btn">Login</a>
-      <a href="{% url 'cadastro' %}" class="btn">Cadastro</a>
+      <a href="/cadastro" class="btn">Cadastro</a>
     {% endif %}
   </nav>
 </header>
