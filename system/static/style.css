@@ -327,4 +327,8 @@ body {
   .cta h2 {
     font-size: 1.6rem;
   }
+  .header, .evento-card {
+  flex-direction: column;
+  text-align: center;
+}
 }
