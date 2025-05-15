@@ -11,9 +11,15 @@
   {% include 'navbar.html' %}
   <main class="main">
       <section class="cta">
+        {% if user.is_authenticated %}
+            <h1 class="bem-vindo">Seja bem-vindo, {{ user.first_name }}!</h1>
+        {% else %}
+
         <h2>Seja parte do ADOWES!</h2>
         <p>Cadastre-se agora e participe dos eventos semanais da nossa comunidade.</p>
-        <a href="{% url 'cadastro' %}" class="btn-cadastro">Cadastre-se agora</a>
+        <a href="{% url 'cadastro' %}" class="btn-cadastro">Cadastre-se agora</a>][
+
+        {% endif %}
 
       </section>
   </main>

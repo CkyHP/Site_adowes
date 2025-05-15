@@ -17,6 +17,8 @@ import re
 # Create your views here.
 
 def index(request):
+    if request.user.is_authenticated:
+        return redirect('dashboard')
     return render(request, "index.html")
 
 # usuarios/views.py
