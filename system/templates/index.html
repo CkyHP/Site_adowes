@@ -17,31 +17,13 @@
 
         <h2>Seja parte do ADOWES!</h2>
         <p>Cadastre-se agora e participe dos eventos semanais da nossa comunidade.</p>
-        <a href="{% url 'cadastro' %}" class="btn-cadastro">Cadastre-se agora</a>
+        <a href="{% url 'cadastro' %}" class="btn-cadastro">Cadastre-se agora</a>][
 
         {% endif %}
 
       </section>
   </main>
 
-<script>
-  const isAuthenticated = "{{ user.is_authenticated|yesno:'true,false' }}" === "true";
-  const currentPath = "{{ request.path }}";
-
-  function toggleMenu() {
-    const nav = document.getElementById("navLinks");
-    nav.classList.toggle("active");
-  }
-
-  function handleLogoClick() {
-    if (isAuthenticated && currentPath !== "/") {
-      window.location.href = "/dashboard";
-    } else {
-      window.location.href = "/";
-    }
-  }
-</script>
-
-
+  
 </body>
 </html>
