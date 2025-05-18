@@ -1,0 +1,21 @@
+<!-- index.html -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>ADOWES - Início</title>
+  <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+  {% include 'navbar.html' %}
+  <main class="main">
+      <section class="cta">
+        <h2>Seja parte do ADOWES!</h2>
+        <p>Cadastre-se agora e participe dos eventos semanais da nossa comunidade.</p>
+        <a href="{% url 'cadastro' %}" class="btn-cadastro">Cadastre-se agora</a>
+
+      </section>
+  </main>
+</body>
+</html>

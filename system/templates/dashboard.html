@@ -1,0 +1,252 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <title></title>
+    <style>
+        .dashboard-container {
+        max-width: 900px;
+        margin: 50px auto;
+        padding: 30px;
+        background-color: #111;
+        border-radius: 16px;
+        box-shadow: 0 0 20px rgba(255, 0, 87, 0.1);
+        border: 1px solid #222;
+        }
+
+        .dashboard-container h2 {
+        font-size: 2.3rem;
+        text-align: center;
+        margin-bottom: 40px;
+        background: linear-gradient(90deg, #ff0057, #ff9900);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        }
+
+        .dia-section {
+        margin-bottom: 40px;
+        }
+
+        .dia-section h3 {
+        color: #ff9900;
+        margin-bottom: 20px;
+        border-bottom: 1px solid #333;
+        padding-bottom: 6px;
+        font-size: 1.4rem;
+        }
+
+        .evento-card {
+        background-color: #1a1a1a;
+        border: 1px solid #333;
+        padding: 16px 20px;
+        margin-bottom: 12px;
+        border-radius: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        }
+
+        .acoes {
+        display: flex;
+        gap: 10px;
+        margin-top: 10px;
+        }
+
+        .btn-confirmar, .btn-nao-fui {
+        padding: 8px 16px;
+        border-radius: 30px;
+        font-weight: bold;
+        border: none;
+        cursor: pointer;
+        font-size: 0.95rem;
+        transition: all 0.2s ease;
+        }
+
+        .btn-confirmar {
+        background: linear-gradient(135deg, #00c851, #007e33);
+        color: white;
+        }
+
+        .btn-nao-fui {
+        background: linear-gradient(135deg, #ff4444, #cc0000);
+        color: white;
+        }
+
+        .btn-confirmar:hover, .btn-nao-fui:hover {
+        transform: scale(1.05);
+        opacity: 0.9;
+        }
+
+        .presenca-marcada {
+        font-weight: bold;
+        padding: 6px 14px;
+        border-radius: 20px;
+        font-size: 0.95rem;
+        }
+
+        .presenca-sim {
+        background-color: #00695c;
+        color: #a7ffeb;
+        }
+
+        .presenca-nao {
+        background-color: #b71c1c;
+        color: #ffcdd2;
+        }
+
+        .sem-eventos {
+        font-size: 0.95rem;
+        color: #777;
+        }
+        .dashboard-container {
+        padding: 40px;
+        }
+
+        .titulo-dashboard {
+        font-size: 2rem;
+        background: linear-gradient(90deg, #ff0057, #ff9900);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 30px;
+        text-align: center;
+        }
+
+        .dia-section {
+        margin-bottom: 40px;
+        }
+
+        .nome-dia {
+        font-size: 1.4rem;
+        margin-bottom: 10px;
+        color: #ff9900;
+        border-bottom: 1px solid #333;
+        padding-bottom: 5px;
+        }
+
+        .evento-card {
+        background-color: #111;
+        padding: 15px 20px;
+        margin-bottom: 12px;
+        border-radius: 12px;
+        box-shadow: 0 0 5px #222;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        }
+
+        .evento-info {
+        color: #fff;
+        }
+
+        .acoes form {
+        display: inline-block;
+        margin-left: 8px;
+        }
+
+        .btn-confirmar {
+        background-color: #28a745;
+        border: none;
+        padding: 8px 14px;
+        color: #fff;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: 0.3s;
+        }
+
+        .btn-nao-fui {
+        background-color: #dc3545;
+        border: none;
+        padding: 8px 14px;
+        color: #fff;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: 0.3s;
+        }
+
+        .btn-confirmar:hover,
+        .btn-nao-fui:hover {
+        opacity: 0.85;
+        }
+
+        .badge-presenca {
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-weight: bold;
+        text-transform: uppercase;
+        }
+
+        .presenca-sim {
+        background-color: #28a745;
+        color: #fff;
+        }
+
+        .presenca-nao {
+        background-color: #dc3545;
+        color: #fff;
+        }
+
+        .sem-eventos {
+        color: #aaa;
+        font-style: italic;
+        }
+
+
+    </style>
+</head>
+<body>
+{% include 'navbar.html' %}
+{% block content %}
+    <div class="dashboard-container">
+    <h2 class="titulo-dashboard">Eventos da Semana</h2>
+
+    {% for dia, eventos_dia in eventos_por_dia.items %}
+        <div class="dia-section">
+        <h3 class="nome-dia">{{ dia }}</h3>
+
+        {% if eventos_dia %}
+            {% for evento in eventos_dia %}
+            <div class="evento-card">
+                <div class="evento-info">
+                <strong class="evento-nome">{{ evento.nome }}</strong><br>
+                <small class="evento-detalhes">{{ evento.horario }} — {{ evento.local }}</small>
+                </div>
+                {% if evento.passado %}
+                <div class="acoes">
+                    {% if evento.presenca is None %}
+                    <form method="post" action="{% url 'registrar_presenca' evento.id 'sim' %}">
+                        {% csrf_token %}
+                        <button class="btn-confirmar" type="submit">Compareci</button>
+                    </form>
+                    <form method="post" action="{% url 'registrar_presenca' evento.id 'nao' %}">
+                        {% csrf_token %}
+                        <button class="btn-nao-fui" type="submit">Não fui</button>
+                    </form>
+                    {% else %}
+                    {% if evento.presenca == 'sim' %}
+                        <span class="badge-presenca presenca-sim">Compareci</span>
+                    {% elif evento.presenca == 'nao' %}
+                        <span class="badge-presenca presenca-nao">Não fui</span>
+                    {% endif %}
+                    {% endif %}
+                </div>
+                {% endif %}
+            </div>
+            {% endfor %}
+        {% else %}
+            <p class="sem-eventos">Nenhum evento para {{ dia }}.</p>
+        {% endif %}
+        </div>
+    {% endfor %}
+    </div>
+{% endblock %}
+
+
+</body>
+
+</html>

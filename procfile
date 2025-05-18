@@ -1,0 +1,1 @@
+web: gunicorn adowes_site.wsgi:application

@@ -1,0 +1,271 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Criar Evento</title>
+  <link rel="stylesheet" href="{% static 'css/estilos.css' %}" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;800&display=swap" rel="stylesheet" />
+  <style>
+    /* FORMULÁRIO DE CRIAÇÃO DE EVENTO */
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600;800&display=swap');
+
+/* GERAL */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Montserrat', sans-serif;
+  background-color: #0a0a0a;
+  color: white;
+}
+
+/* CONTAINER */
+.create-event-container {
+  max-width: 700px;
+  margin: 80px auto;
+  background-color: #111;
+  padding: 40px;
+  border-radius: 16px;
+  box-shadow: 0 0 20px rgba(255, 0, 87, 0.1);
+  border: 1px solid #222;
+}
+
+/* TÍTULO */
+.create-event-container h2 {
+  font-size: 2.2rem;
+  margin-bottom: 30px;
+  text-align: center;
+  background: linear-gradient(90deg, #ff0057, #ff9900);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* LABELS */
+form label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+  color: #eee;
+  font-size: 0.95rem;
+}
+
+/* CAMPOS */
+form input,
+form select,
+form textarea {
+  width: 100%;
+  padding: 14px;
+  margin-bottom: 20px;
+  background-color: #1a1a1a;
+  border: 2px solid #333;
+  color: white;
+  border-radius: 10px;
+  font-size: 1rem;
+  transition: border 0.3s, box-shadow 0.3s;
+}
+
+form input:focus,
+form select:focus,
+form textarea:focus {
+  border-color: #ff0057;
+  outline: none;
+  box-shadow: 0 0 10px rgba(255, 0, 87, 0.3);
+}
+
+/* TEXTAREA */
+form textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+/* BOTÕES */
+.form-actions {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.btn-cadastro {
+  flex: 1;
+  padding: 14px 28px;
+  font-size: 1.1rem;
+  color: white;
+  background: linear-gradient(135deg, #6a11cb, #2575fc);
+  border: none;
+  border-radius: 40px;
+  text-decoration: none;
+  font-weight: bold;
+  box-shadow: 0 5px 15px rgba(106, 17, 203, 0.4);
+  transition: all 0.3s ease-in-out;
+  text-align: center;
+  cursor: pointer;
+}
+
+.btn-cadastro:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 20px rgba(106, 17, 203, 0.6);
+  background: linear-gradient(135deg, #2575fc, #6a11cb);
+}
+
+/* BOTÃO CANCELAR */
+.btn-cancelar {
+  flex: 1;
+  padding: 14px 28px;
+  font-size: 1.1rem;
+  color: #ff0057;
+  background: transparent;
+  border: 2px solid #ff0057;
+  border-radius: 40px;
+  font-weight: bold;
+  text-decoration: none;
+  text-align: center;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.btn-cancelar:hover {
+  background: #1f1f1f;
+  color: white;
+  transform: scale(1.05);
+}
+
+.switch-container {
+  display: flex;
+  align-items: center;
+  margin: 20px 0;
+}
+
+.switch-label {
+  margin-right: 10px;
+  font-size: 1rem;
+  color: #ccc;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 26px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0; left: 0;
+  right: 0; bottom: 0;
+  background-color: #ccc;
+  transition: .4s;
+  border-radius: 34px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: .4s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background: linear-gradient(90deg, #ff0057, #ff9900);
+}
+
+input:checked + .slider:before {
+  transform: translateX(24px);
+}
+
+  </style>
+</head>
+<body>
+
+ <div class="create-event-container">
+  <h2>Criar Novo Evento</h2>
+  <form method="post" action="{% url 'criar_evento' %}">
+    {% csrf_token %}
+    
+    <label for="nome">Nome do Evento</label>
+    <input type="text" id="nome" name="nome" required>
+
+    <!-- Switch de evento periódico -->
+    <div class="switch-container">
+      <label class="switch-label">Evento Periódico?</label>
+      <label class="switch">
+        <input type="checkbox" id="periodico-switch" name="eh_periodico">
+        <span class="slider round"></span>
+      </label>
+    </div>
+
+    <!-- Campo de data única -->
+    <div id="campo-data">
+      <label for="data">Data</label>
+      <input type="date" id="data" name="data">
+    </div>
+
+    <!-- Campo de dia da semana -->
+    <div id="campo-dia-semana" style="display: none;">
+      <label for="dia_semana">Dia da Semana</label>
+      <select id="dia_semana" name="dia_semana">
+        <option value="">-- Selecione --</option>
+        <option value="Segunda">Segunda</option>
+        <option value="Terça">Terça</option>
+        <option value="Quarta">Quarta</option>
+        <option value="Quinta">Quinta</option>
+        <option value="Sexta">Sexta</option>
+        <option value="Sábado">Sábado</option>
+        <option value="Domingo">Domingo</option>
+      </select>
+    </div>
+
+    <label for="horario">Horário</label>
+    <input type="time" id="horario" name="horario" required>
+
+    <label for="local">Local</label>
+    <input type="text" id="local" name="local" required>
+
+    <div class="form-actions">
+      <button type="submit" class="btn-cadastro">Criar Evento</button>
+      <a href="/painel" class="btn-cancelar">Cancelar</a>
+    </div>
+  </form>
+</div>
+
+  <script>
+    function alternarDataDia(valor) {
+      if (valor === "True") {
+        document.getElementById('campo_dia_semana').style.display = 'block';
+        document.getElementById('campo_data').style.display = 'none';
+      } else {
+        document.getElementById('campo_dia_semana').style.display = 'none';
+        document.getElementById('campo_data').style.display = 'block';
+      }
+    }
+
+      document.getElementById('periodico-switch').addEventListener('change', function () {
+    const campoData = document.getElementById('campo-data');
+    const campoDiaSemana = document.getElementById('campo-dia-semana');
+
+    if (this.checked) {
+      campoData.style.display = 'none';
+      campoDiaSemana.style.display = 'block';
+      document.getElementById('data').value = '';
+    } else {
+      campoData.style.display = 'block';
+      campoDiaSemana.style.display = 'none';
+      document.getElementById('dia_semana').value = '';
+    }
+  });
+  </script>
+</body>
+</html>

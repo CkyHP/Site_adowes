@@ -1,0 +1,280 @@
+/* style.css */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600;800&display=swap');
+
+body {
+  margin: 0;
+  font-family: 'Montserrat', sans-serif;
+  background-color: #0a0a0a;
+  color: white;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 25px 40px;
+  background-color: #0a0a0a;
+  border-bottom: 1px solid #222;
+}
+
+.logo h1 {
+  margin: 0;
+  font-size: 2.5rem;
+  background: linear-gradient(90deg, #ff0057, #ff9900);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.logo p {
+  margin: 5px 0 0;
+  font-size: 0.9rem;
+  color: #888;
+}
+
+.buttons .btn {
+  margin-left: 20px;
+  padding: 10px 22px;
+  text-decoration: none;
+  font-weight: bold;
+  color: white;
+  border: 2px solid #ff0057;
+  background: linear-gradient(90deg, #ff0057, #ff9900);
+  border-radius: 8px;
+  transition: 0.3s;
+}
+
+.buttons .btn:hover {
+  transform: scale(1.05);
+  opacity: 0.9;
+}
+
+.main {
+  text-align: center;
+  padding: 80px 20px;
+}
+
+.cta h2 {
+  font-size: 2rem;
+  background: linear-gradient(90deg, #ff0057, #ff9900);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.cta p {
+  margin: 20px 0;
+  font-size: 1rem;
+  color: #ccc;
+}
+
+.btn-cadastro {
+  display: inline-block;
+  padding: 14px 28px;
+  font-size: 1.1rem;
+  color: white;
+  background: linear-gradient(135deg, #6a11cb, #2575fc);
+  border: none;
+  border-radius: 40px;
+  text-decoration: none;
+  font-weight: bold;
+  box-shadow: 0 5px 15px rgba(106, 17, 203, 0.4);
+  transition: all 0.3s ease-in-out;
+  text-align: center;
+}
+
+.btn-cadastro:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 20px rgba(106, 17, 203, 0.6);
+  background: linear-gradient(135deg, #2575fc, #6a11cb);
+}
+
+      .dashboard-container {
+        max-width: 900px;
+        margin: 50px auto;
+        padding: 30px;
+        background-color: #111;
+        border-radius: 16px;
+        box-shadow: 0 0 20px rgba(255, 0, 87, 0.1);
+        border: 1px solid #222;
+        }
+
+        .dashboard-container h2 {
+        font-size: 2.3rem;
+        text-align: center;
+        margin-bottom: 40px;
+        background: linear-gradient(90deg, #ff0057, #ff9900);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        }
+
+        .dia-section {
+        margin-bottom: 40px;
+        }
+
+        .dia-section h3 {
+        color: #ff9900;
+        margin-bottom: 20px;
+        border-bottom: 1px solid #333;
+        padding-bottom: 6px;
+        font-size: 1.4rem;
+        }
+
+        .evento-card {
+        background-color: #1a1a1a;
+        border: 1px solid #333;
+        padding: 16px 20px;
+        margin-bottom: 12px;
+        border-radius: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        }
+
+       
+        .acoes {
+        display: flex;
+        gap: 10px;
+        margin-top: 10px;
+        }
+
+        .btn-confirmar, .btn-nao-fui {
+        padding: 8px 16px;
+        border-radius: 30px;
+        font-weight: bold;
+        border: none;
+        cursor: pointer;
+        font-size: 0.95rem;
+        transition: all 0.2s ease;
+        }
+
+        .btn-confirmar {
+        background: linear-gradient(135deg, #00c851, #007e33);
+        color: white;
+        }
+
+        .btn-nao-fui {
+        background: linear-gradient(135deg, #ff4444, #cc0000);
+        color: white;
+        }
+
+        .btn-confirmar:hover, .btn-nao-fui:hover {
+        transform: scale(1.05);
+        opacity: 0.9;
+        }
+
+        .presenca-marcada {
+        font-weight: bold;
+        padding: 6px 14px;
+        border-radius: 20px;
+        font-size: 0.95rem;
+        }
+
+        .presenca-sim {
+        background-color: #00695c;
+        color: #a7ffeb;
+        }
+
+        .presenca-nao {
+        background-color: #b71c1c;
+        color: #ffcdd2;
+        }
+
+        .sem-eventos {
+        font-size: 0.95rem;
+        color: #777;
+        }
+        .dashboard-container {
+        padding: 40px;
+        }
+
+        .titulo-dashboard {
+        font-size: 2rem;
+        background: linear-gradient(90deg, #ff0057, #ff9900);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 30px;
+        text-align: center;
+        }
+
+        .dia-section {
+        margin-bottom: 40px;
+        }
+
+        .nome-dia {
+        font-size: 1.4rem;
+        margin-bottom: 10px;
+        color: #ff9900;
+        border-bottom: 1px solid #333;
+        padding-bottom: 5px;
+        }
+
+        .evento-card {
+        background-color: #111;
+        padding: 15px 20px;
+        margin-bottom: 12px;
+        border-radius: 12px;
+        box-shadow: 0 0 5px #222;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        }
+
+        .evento-info {
+        color: #fff;
+        }
+
+        .acoes form {
+        display: inline-block;
+        margin-left: 8px;
+        }
+
+        .btn-confirmar {
+        background-color: #28a745;
+        border: none;
+        padding: 8px 14px;
+        color: #fff;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: 0.3s;
+        }
+
+        .btn-nao-fui {
+        background-color: #dc3545;
+        border: none;
+        padding: 8px 14px;
+        color: #fff;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: 0.3s;
+        }
+
+        .btn-confirmar:hover,
+        .btn-nao-fui:hover {
+        opacity: 0.85;
+        }
+
+        .badge-presenca {
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-weight: bold;
+        text-transform: uppercase;
+        }
+
+       
+
+        .presenca-sim {
+        background-color: #28a745;
+        color: #fff;
+        }
+
+        .presenca-nao {
+        background-color: #dc3545;
+        color: #fff;
+        }
+
+        .sem-eventos {
+        color: #aaa;
+        font-style: italic;
+        }
